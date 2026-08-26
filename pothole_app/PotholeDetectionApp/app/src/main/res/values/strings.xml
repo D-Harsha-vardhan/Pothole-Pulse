@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Pothole Detection</string>
+    <string name="inference_time">Inference: %1$dms</string>
+    <string name="pothole_label">Pothole #%1$d (%2$s)</string>
+    <string name="camera_binding_failed">Use case binding failed</string>
+    <string name="permissions_not_granted">Permissions not granted by the user.</string>
+</resources>

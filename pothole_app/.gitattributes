@@ -1,0 +1,7 @@
+# Force GitHub to recognize Kotlin as the primary language
+*.kt linguist-detectable=true
+*.xml linguist-detectable=true
+
+# Ignore any lingering build scripts or generated files from stats
+*.gradle.kts linguist-vendored
+*.properties linguist-vendored
