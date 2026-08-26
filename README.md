@@ -30,6 +30,33 @@ PotholePulse transforms every smartphone into a smart road sensor. Using the pho
 
 ---
 
+## 🧠 YOLO Model & Road Defect Detection
+
+The Android client (`pothole_app`) features an **on-device real-time machine learning pipeline** to detect potholes locally without relying on expensive server-side video streaming.
+
+### 1. The Model: `pothole_model.tflite`
+- **Architecture:** Lightweight **YOLO (You Only Look Once)** object detection model compiled into TensorFlow Lite format.
+- **Input Dimensions:** 640x640 pixels (RGB).
+- **Execution Performance:** Run utilizing Android CPU delegates configured with 4 execution threads, maintaining smooth real-time camera framing (averaging ~15-40ms inference).
+
+### 2. Pre-processing & Inference (`YoloTFLiteDetector.kt`)
+- Camera frames are dynamically intercepted from the native camera stream, rotated, and processed into a `TensorImage`.
+- An `ImageProcessor` applies a bilinear resize to scale the image to 640x640, followed by range normalization (dividing pixel values by 255 to yield `0f` to `1f` floats).
+- The normalized buffer is fed into the TFLite Interpreter which executes the neural network forwards pass.
+
+### 3. Post-processing & Filtering
+- **Threshold Filtering:** Detections are ignored if the model confidence score falls below a threshold of `0.4`.
+- **Non-Maximum Suppression (NMS):** To prevent duplicate boxes for the same pothole, a custom NMS algorithm matches overlapping boxes and suppresses redundant candidates using an Intersection over Union (IoU) threshold of `0.3`.
+
+### 4. Automated Reporting Pipeline
+When a hazard is successfully detected:
+1. The app initializes a 15-second cooldown timer to prevent spamming reports for the same pothole.
+2. The detected bitmap frame is encoded into a Base64 data URL string.
+3. The app issues an HTTP POST request containing the frame and approximate coordinates to the backend proxy.
+4. The proxy requests a Vision analysis, generates the complaint letter, and broadcasts the event via WebSockets to instantly update all active web dashboards.
+
+---
+
 ## 🛠️ Architecture & Tech Stack
 
 ```mermaid
