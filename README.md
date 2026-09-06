@@ -128,6 +128,6 @@ npm run dev
 1. Open the `/pothole_app` folder in **Android Studio**.
 2. Change the target URL in your network config to match your workstation's local IP address (e.g. `http://192.168.1.XX:5173`).
 3. Run on your physical device to enable GPS tracking.
-345
+345478
 
 
