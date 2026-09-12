@@ -72,7 +72,7 @@ graph TD
 
 ---
 
-## 📦 Project Directory Structure
+## 📦 **Project Directory Structure**
 
 ```
 Pothole-Pulse/
